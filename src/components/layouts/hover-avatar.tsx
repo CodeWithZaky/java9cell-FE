@@ -1,6 +1,4 @@
 import { CalendarDays } from "lucide-react";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
     HoverCard,
@@ -8,7 +6,7 @@ import {
     HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { AvatarDemo } from "../shadcn/avatar";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 export function HoverAvatar() {
     const { data: session } = useSession();
@@ -16,11 +14,17 @@ export function HoverAvatar() {
     const infoUser: any = session?.user;
     const user: any = infoUser?.user;
 
+    const formatter = new Intl.DateTimeFormat("id-ID", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    });
+
     return (
         <HoverCard>
             <HoverCardTrigger asChild>
                 <Button variant="link">
-                    <AvatarDemo />
+                    <AvatarDemo fallback={user?.name} />
                 </Button>
             </HoverCardTrigger>
             <HoverCardContent className="w-60">
@@ -32,12 +36,21 @@ export function HoverAvatar() {
                         <h4 className="text-sm font-semibold">
                             {`email : ${user?.email}`}
                         </h4>
+
                         <div className="flex items-center pt-2">
                             <CalendarDays className="mr-2 h-4 w-4 opacity-70" />
                             <span className="text-xs text-muted-foreground">
-                                Joined December 2021
+                                {formatter.format(Date.now())}
                             </span>
                         </div>
+                        <Button
+                            onClick={() => signOut()}
+                            variant={"destructive"}
+                            size={"sm"}
+                            className="w-full"
+                        >
+                            Logout
+                        </Button>
                     </div>
                 </div>
             </HoverCardContent>

@@ -1,10 +1,10 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
 import { User } from "@/types/session";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -18,13 +18,11 @@ const CreateProduct = () => {
     const [price, setPrice] = useState<number>(0);
     const [stock, setStock] = useState<number>(0);
     const [categoryId, setCategoryId] = useState<number>(3);
+    const { toast } = useToast();
 
     const data = useSession();
     const router = useRouter();
 
-    if (data.status === "unauthenticated") {
-        router.push("/auth/login");
-    }
     const { data: session } = data;
 
     const onSubmit = async () => {
@@ -54,7 +52,10 @@ const CreateProduct = () => {
                 }
             );
             if (response.ok) {
-                console.log("Produk berhasil dibuat!");
+                toast({
+                    title: "Produk Berhasil",
+                    description: "Produk berhasil dibuat!",
+                });
                 router.push("/users/dashboard");
             } else {
                 console.error(
@@ -80,6 +81,7 @@ const CreateProduct = () => {
             console.log("Error: ", error);
         };
     };
+
     return (
         <div className="flex flex-col md:flex-row gap-0 md:gap-4 w-full md:w-[80%] mx-auto pt-10">
             <FormItem className="w-full md:w-2/4 flex flex-col gap-4">

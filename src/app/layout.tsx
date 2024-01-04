@@ -4,6 +4,7 @@ import "../styles/globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import Navbar from "@/components/layouts/navbar";
 import SessionProviderWrap from "@/providers/session-provider-wrap";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default function RootLayout({
                     >
                         <Navbar />
                         <div className="container mx-auto">{children}</div>
+                        <Toaster />
                     </ThemeProvider>
                 </SessionProviderWrap>
             </body>

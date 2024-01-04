@@ -1,10 +1,10 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
 import { User } from "@/types/session";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -22,9 +22,8 @@ const UpdateProduct = ({ params }: { params: { id: string } }) => {
     const data = useSession();
     const router = useRouter();
 
-    if (data.status === "unauthenticated") {
-        router.push("/auth/login");
-    }
+    const { toast } = useToast();
+
     const { data: session } = data;
 
     useEffect(() => {
@@ -43,13 +42,16 @@ const UpdateProduct = ({ params }: { params: { id: string } }) => {
                     setImages(images.join(","));
                     setPrice(Number(price));
                     setStock(Number(stock));
-                    console.log("Produk berhasil dimuat!");
                 } else {
                     console.error(
                         "Gagal memuat produk. Status:",
                         response.status,
                         response.statusText
                     );
+                    toast({
+                        variant: "destructive",
+                        title: "Gagal memuat produk. Cobalagi!",
+                    });
                     const errorData = await response.json();
                     console.error("Informasi tambahan:", errorData);
                 }
@@ -58,7 +60,7 @@ const UpdateProduct = ({ params }: { params: { id: string } }) => {
             }
         };
         fetchData();
-    }, [params.id]);
+    }, [params.id, toast]);
 
     const onSubmit = async () => {
         try {
@@ -72,7 +74,10 @@ const UpdateProduct = ({ params }: { params: { id: string } }) => {
             };
             const token = (session?.user as User)?.accessToken;
             if (!token) {
-                console.error("Token akses tidak tersedia.");
+                toast({
+                    variant: "destructive",
+                    title: "Token akses tidak tersedia. Silahkan login ulang!",
+                });
                 return;
             }
             const response = await fetch(
@@ -87,7 +92,9 @@ const UpdateProduct = ({ params }: { params: { id: string } }) => {
                 }
             );
             if (response.ok) {
-                console.log("Produk berhasil dibuat!");
+                toast({
+                    title: "Produk berhasil diupdate!",
+                });
                 router.push("/users/dashboard");
             } else {
                 console.error(
@@ -95,6 +102,10 @@ const UpdateProduct = ({ params }: { params: { id: string } }) => {
                     response.status,
                     response.statusText
                 );
+                toast({
+                    variant: "destructive",
+                    title: "Gagal memperbarui produk. Cobalagi!",
+                });
                 const errorData = await response.json();
                 console.error("Informasi tambahan:", errorData);
             }

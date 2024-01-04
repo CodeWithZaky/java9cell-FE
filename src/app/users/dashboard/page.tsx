@@ -27,17 +27,32 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useSession } from "next-auth/react";
 import { User } from "@/types/session";
+import { useToast } from "@/components/ui/use-toast";
+import usePriceFormat from "@/hooks/usePriceFormat";
 import { useRouter } from "next/navigation";
 
 const Dashboard = () => {
     const { products: prod, loading: load, error: err } = useProductData();
-    const data = useSession();
+    const { numberFormat } = usePriceFormat();
     const router = useRouter();
 
-    if (data.status === "unauthenticated") {
-        router.push("/auth/login");
-    }
+    const data = useSession();
+
+    const { toast } = useToast();
+
     const { data: session } = data;
+
+    const user: any = data?.data?.user as
+        | {
+              name?: string | null | undefined;
+              email?: string | null | undefined;
+              image?: string | null | undefined;
+          }
+        | undefined;
+
+    if (user?.user?.roles[0] !== "admin") {
+        router.push("/");
+    }
 
     if (load) {
         return <div>Loading...</div>;
@@ -64,13 +79,21 @@ const Dashboard = () => {
                 }
             );
             if (response.ok) {
-                console.log("Produk berhasil dihapus!");
+                toast({
+                    title: "Produk Berhasil",
+                    description: "Produk berhasil dihapus!",
+                });
+                window.location.reload();
             } else {
                 console.error(
                     "Gagal menghapus produk. Status:",
                     response.status,
                     response.statusText
                 );
+                toast({
+                    variant: "destructive",
+                    title: "Gagal menghapus produk. Cobalagi!",
+                });
                 const errorData = await response.json();
                 console.error("Informasi tambahan:", errorData);
             }
@@ -91,12 +114,6 @@ const Dashboard = () => {
                 {prod.map((product: Product, index: number) => {
                     const img = product.images.join(",");
 
-                    const numberFormat = (value: any) =>
-                        new Intl.NumberFormat("id-ID", {
-                            style: "currency",
-                            currency: "IDR",
-                        }).format(value);
-
                     return (
                         <Fragment key={index}>
                             <Card className="flex ">
@@ -115,21 +132,24 @@ const Dashboard = () => {
                                 <div className="flex flex-col my-5">
                                     <CardContent>
                                         <Label>{product.title}</Label>
-                                        <CardDescription className="whitespace-wrap">
+                                        <CardDescription className="whitespace-wrap mt-2">
                                             {product.description}
+                                        </CardDescription>
+                                        <CardDescription className="whitespace-wrap text-foreground/80 mt-2">
+                                            {`stock: ${product.stock}`}
                                         </CardDescription>
                                         <CardTitle className="mt-4 whitespace-wrap">
                                             {numberFormat(product.price)}
                                         </CardTitle>
                                     </CardContent>
                                     <CardFooter className="flex justify-start gap-5">
-                                        <Button variant="outline">
-                                            <Link
-                                                href={`/product/update/${product.id}`}
-                                            >
+                                        <Link
+                                            href={`/product/update/${product.id}`}
+                                        >
+                                            <Button variant="outline">
                                                 Edit
-                                            </Link>
-                                        </Button>
+                                            </Button>
+                                        </Link>
                                         <AlertDialog>
                                             <AlertDialogTrigger>
                                                 <Button variant={"destructive"}>
