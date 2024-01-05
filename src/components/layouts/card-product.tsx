@@ -19,32 +19,34 @@ import {
     HoverCardContent,
     HoverCardTrigger,
 } from "../ui/hover-card";
+import usePriceFormat from "@/hooks/usePriceFormat";
+import Loading from "./loading";
 
 const CardProduct = () => {
     const { products: prod, loading: load, error: err } = useProductData();
+    const { numberFormat } = usePriceFormat();
 
     if (load) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     if (err) {
-        return <div>Error: {err}</div>;
+        return (
+            <div>
+                <span className="text-destructive">Error:</span>{" "}
+                <span className="text-foreground">{err}</span>
+            </div>
+        );
     }
 
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {prod.map((product: Product, index: number) => {
                 const img = product.images.join(",");
 
-                const numberFormat = (value: any) =>
-                    new Intl.NumberFormat("id-ID", {
-                        style: "currency",
-                        currency: "IDR",
-                    }).format(value);
-
                 return (
                     <Fragment key={index}>
-                        <Card className="flex flex-col justify-between">
+                        <Card className="flex flex-col justify-between transition-all">
                             <div>
                                 <CardHeader>
                                     <div className="relative aspect-square w-full bg-background rounded-lg">

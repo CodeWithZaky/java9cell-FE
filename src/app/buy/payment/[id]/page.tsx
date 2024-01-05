@@ -71,13 +71,13 @@ const Payment = ({ params }: { params: { id: string } }) => {
 
     return (
         <div className="flex flex-col w-full md:w-[50%] mx-auto my-10 gap-5">
-            <Card className="w-full border border-yellow-300/80 text-yellow-300/80 flex flex-col items-center py-2">
+            {/* <Card className="w-full border border-yellow-300/80 text-yellow-300/80 flex flex-col items-center py-2">
                 <AlertTriangle />
                 <p>MOHON MAAF!</p>
                 <p>UNTUK SISTEM PEMESANAN DALAM APLIKASI</p>
                 <p>BELUM TERSEDIA,</p>
                 <p>SILAHKAN PILIH SISTEM PEMESANAN YANG TERSEDIA</p>
-            </Card>
+            </Card> */}
             <div className="flex flex-col whitespace-wrap w-[70%] text-muted-foreground">
                 <p>
                     <span className="italic">catatan</span>
@@ -99,10 +99,10 @@ const Payment = ({ params }: { params: { id: string } }) => {
                                     <p className="w-[50%]">barang</p>
                                     <p className="w-[50%]">{`: ${title}`}</p>
                                 </CardDescription>
-                                <CardDescription className="whitespace-wrap w-full flex justify-between">
+                                {/* <CardDescription className="whitespace-wrap w-full flex justify-between">
                                     <p className="w-[50%]">deskripsi</p>
                                     <p className="w-[50%]">{`: ${description}`}</p>
-                                </CardDescription>
+                                </CardDescription> */}
                                 <CardDescription className="whitespace-wrap w-full flex justify-between">
                                     <p className="w-[50%]">harga</p>
                                     <p className="w-[50%]">{`: ${numberFormat(
@@ -154,11 +154,21 @@ const Payment = ({ params }: { params: { id: string } }) => {
                         )}`}</CardDescription>
                     </div>
                     <Link
-                        href={`https://wa.me/+6285749534548`}
+                        href={`https://wa.me/+628608921729`}
                         className="w-full"
+                        target="_blank"
                     >
                         <Button className="w-full bg-[#25D366]" size={"sm"}>
                             WhatsApp
+                        </Button>
+                    </Link>
+                    <Link
+                        href={`https://ig.me/m/muhammadar_20`}
+                        className="w-full"
+                        target="_blank"
+                    >
+                        <Button className="w-full bg-red-500" size={"sm"}>
+                            Instagram
                         </Button>
                     </Link>
                 </CardFooter>

@@ -19,12 +19,14 @@ const Navbar = () => {
     // }
 
     return (
-        <div className="flex justify-center items-center py-5 border-b border-border px-10">
-            <CardTitle className="font-bold w-[40%]">
-                <Link href="/">java9cell</Link>
+        <div className="flex justify-end md:justify-center items-center py-5 border-b border-border px-10">
+            <CardTitle className="hidden md:block font-bold w-[40%]">
+                <Link href="/">
+                    java<span className="text-primary">9</span>cell
+                </Link>
             </CardTitle>
             <SearchInput />
-            <div className="flex justify-end gap-4 w-[40%]">
+            <div className="flex justify-end gap-4 w-[30%] md:w-[40%]">
                 <div className="hidden lg:block">
                     <ModeToggle />
                 </div>

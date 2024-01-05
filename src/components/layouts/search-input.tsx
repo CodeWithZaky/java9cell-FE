@@ -29,7 +29,9 @@ const SearchInput = () => {
     }
 
     useEffect(() => {
-        router.push(`?search=${searchQuery}`);
+        if (searchQuery) {
+            router.push(`?search=${searchQuery}`);
+        }
     }, [router, searchQuery]);
 
     return (

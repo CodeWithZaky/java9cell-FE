@@ -17,6 +17,7 @@ import usePriceFormat from "@/hooks/usePriceFormat";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { signIn, useSession } from "next-auth/react";
 
 const Buy = ({ params }: { params: { id: string } }) => {
     const [title, setTitle] = useState<string>("");
@@ -26,8 +27,8 @@ const Buy = ({ params }: { params: { id: string } }) => {
     const [stock, setStock] = useState<number>(0);
     const { toast } = useToast();
     const { numberFormat } = usePriceFormat();
-
     const router = useRouter();
+
     const searchParams = useSearchParams();
 
     const totalQuantity = searchParams.get("quantity");
@@ -109,11 +110,11 @@ const Buy = ({ params }: { params: { id: string } }) => {
                 </CardHeader>
                 <div className="flex flex-col my-5">
                     <CardContent>
-                        <Label>{title}</Label>
+                        <Label className="text-xl">{title}</Label>
                         <CardDescription className="whitespace-wrap mt-2">
                             {description}
                         </CardDescription>
-                        <CardDescription className="whitespace-wrap text-foreground/80 mt-2">
+                        <CardDescription className="whitespace-wrap font-bold text-primary mt-2">
                             {`stock: ${stock}`}
                         </CardDescription>
                         <CardTitle className="mt-4 whitespace-wrap">
@@ -124,9 +125,9 @@ const Buy = ({ params }: { params: { id: string } }) => {
                 </div>
             </Card>
             <Card className="flex flex-col gap-5 p-5 w-[30%]">
-                <Label className="text-xl">Pembayaran</Label>
+                <Label className="text-xl">Pembelian</Label>
                 <div className="flex flex-col gap-2">
-                    <CardDescription>{`Total Pembayaran : `}</CardDescription>
+                    <CardDescription>{`Total Pembelian : `}</CardDescription>
                     <CardTitle>{`${numberFormat(
                         Number(totalQuantity) * price
                     )}`}</CardTitle>
@@ -143,7 +144,7 @@ const Buy = ({ params }: { params: { id: string } }) => {
                     </Button>
                 </div>
                 {quantity == stock ? (
-                    <CardDescription className="text-yellow-200 flex items-end gap-2">
+                    <CardDescription className="text-yellow-500 dark:text-yellow-200 flex items-end gap-2">
                         <AlertTriangle />
                         <span>yakin, membeli semua stock</span>
                     </CardDescription>

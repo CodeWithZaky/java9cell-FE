@@ -12,6 +12,8 @@ const useProductData = () => {
     const searchParams = useSearchParams();
     const queryParams = searchParams.get("search");
 
+    console.log("search", search);
+
     useEffect(() => {
         setSearch(queryParams || "");
     }, [queryParams]);
@@ -21,7 +23,12 @@ const useProductData = () => {
             try {
                 const response = await fetch(
                     `${process.env.NEXT_PUBLIC_API_URL}/api/products${
-                        search !== "" ? "?search=" + search : ""
+                        search &&
+                        search !== "" &&
+                        search !== null &&
+                        search !== undefined
+                            ? `?search=${search}`
+                            : ""
                     }`
                 );
 
