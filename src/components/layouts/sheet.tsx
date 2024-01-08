@@ -84,7 +84,7 @@ export function SheetDemo() {
                     </div>
                     {user?.user?.roles == "admin" ? (
                         <>
-                            <Link href="/users/dashboard">
+                            <Link href="/users/dashboard/products">
                                 <Button className="w-full">Dashboard</Button>
                             </Link>
                             <Link href="/product/create">

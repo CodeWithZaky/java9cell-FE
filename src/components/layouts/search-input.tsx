@@ -48,14 +48,14 @@ const SearchInput = () => {
                             <FormItem className="w-full">
                                 <FormControl>
                                     <Input
-                                        placeholder="search for products..."
+                                        placeholder="cari produk..."
                                         {...field}
                                     />
                                 </FormControl>
                             </FormItem>
                         )}
                     />
-                    <Button type="submit">Search</Button>
+                    <Button type="submit">Cari</Button>
                 </form>
             </Form>
         </div>
