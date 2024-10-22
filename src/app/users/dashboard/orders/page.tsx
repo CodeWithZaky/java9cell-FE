@@ -1,5 +1,5 @@
 "use client";
-import Loading from "@/components/layouts/loading";
+import Loading from "@/components/loading";
 import {
     Accordion,
     AccordionContent,

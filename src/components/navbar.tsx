@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "../shadcn/mode-togle";
+import { ModeToggle } from "./mode-togle";
 import { SheetDemo } from "./sheet";
 import { usePathname, useRouter } from "next/navigation";
-import { CardTitle } from "../ui/card";
+import { CardTitle } from "./ui/card";
 import { HoverAvatar } from "./hover-avatar";
 import { useSession } from "next-auth/react";
 import SearchInput from "./search-input";

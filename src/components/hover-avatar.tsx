@@ -5,7 +5,7 @@ import {
     HoverCardContent,
     HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import { AvatarDemo } from "../shadcn/avatar";
+import { AvatarDemo } from "./avatar";
 import { signOut, useSession } from "next-auth/react";
 
 export function HoverAvatar() {

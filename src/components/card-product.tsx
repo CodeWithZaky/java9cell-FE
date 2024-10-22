@@ -13,12 +13,8 @@ import {
 import Image from "next/image";
 import { Product } from "@/types/products";
 import Link from "next/link";
-import { Label } from "../ui/label";
-import {
-    HoverCard,
-    HoverCardContent,
-    HoverCardTrigger,
-} from "../ui/hover-card";
+import { Label } from "./ui/label";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import usePriceFormat from "@/hooks/usePriceFormat";
 import Loading from "./loading";
 

@@ -30,7 +30,7 @@ import { User } from "@/types/session";
 import { useToast } from "@/components/ui/use-toast";
 import usePriceFormat from "@/hooks/usePriceFormat";
 import { useRouter } from "next/navigation";
-import Loading from "@/components/layouts/loading";
+import Loading from "@/components/loading";
 
 const DashboardProducts = () => {
     const { products: prod, loading: load, error: err } = useProductData();

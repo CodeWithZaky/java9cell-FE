@@ -25,6 +25,7 @@ const Buy = ({ params }: { params: { id: string } }) => {
     const [images, setImages] = useState<any>();
     const [price, setPrice] = useState<number>(0);
     const [stock, setStock] = useState<number>(0);
+
     const { toast } = useToast();
     const { numberFormat } = usePriceFormat();
     const router = useRouter();

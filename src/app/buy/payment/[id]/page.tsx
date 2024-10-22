@@ -24,10 +24,10 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog";
 import Image from "next/image";
-import ProductDescAccordion from "@/components/layouts/product-desc-accordion";
+import ProductDescAccordion from "@/components/product-desc-accordion";
 import { Label } from "@radix-ui/react-dropdown-menu";
-import { ComboboxDeliveryService } from "@/components/layouts/combobox";
-import { PaymentMethodCombobox } from "@/components/layouts/payment-method-combobox";
+import { ComboboxDeliveryService } from "@/components/combobox";
+import { PaymentMethodCombobox } from "@/components/payment-method-combobox";
 import { Input } from "@/components/ui/input";
 import { FormItem } from "@/components/ui/form";
 
@@ -240,116 +240,100 @@ const Payment = ({ params }: { params: { id: string } }) => {
                                                 Edit alamat
                                             </DialogTitle>
                                         </DialogHeader>
-                                        <div className="flex gap-5">
-                                            <div className="w-[50%] space-y-3">
-                                                <FormItem>
-                                                    <Label>Name</Label>
-                                                    <Input
-                                                        placeholder={
-                                                            name
-                                                                ? name
-                                                                : "name..."
-                                                        }
-                                                        onChange={(e) =>
-                                                            setName(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </FormItem>
-                                                <FormItem>
-                                                    <Label>Phone</Label>
-                                                    <Input
-                                                        placeholder={
-                                                            phone
-                                                                ? phone
-                                                                : "phone..."
-                                                        }
-                                                        onChange={(e) =>
-                                                            setPhone(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </FormItem>
-                                                <FormItem>
-                                                    <Label>Address</Label>
-                                                    <Input
-                                                        placeholder={
-                                                            address
-                                                                ? address
-                                                                : "address..."
-                                                        }
-                                                        onChange={(e) =>
-                                                            setAddress(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </FormItem>
-                                                <FormItem>
-                                                    <Label>City</Label>
-                                                    <Input
-                                                        placeholder={
-                                                            city
-                                                                ? city
-                                                                : "city..."
-                                                        }
-                                                        onChange={(e) =>
-                                                            setCity(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </FormItem>
-                                            </div>
-                                            <div className="w-[50%] space-y-3">
-                                                <FormItem>
-                                                    <Label>Post Code</Label>
-                                                    <Input
-                                                        placeholder={
-                                                            postCode
-                                                                ? postCode
-                                                                : "post code..."
-                                                        }
-                                                        onChange={(e) =>
-                                                            setPostCode(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </FormItem>
-                                                <FormItem>
-                                                    <Label>State</Label>
-                                                    <Input
-                                                        placeholder={
-                                                            state
-                                                                ? state
-                                                                : "state..."
-                                                        }
-                                                        onChange={(e) =>
-                                                            setState(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </FormItem>
-                                                <FormItem>
-                                                    <Label>Country</Label>
-                                                    <Input
-                                                        placeholder={
-                                                            country
-                                                                ? country
-                                                                : "country..."
-                                                        }
-                                                        onChange={(e) =>
-                                                            setCountry(
-                                                                e.target.value
-                                                            )
-                                                        }
-                                                    />
-                                                </FormItem>
-                                            </div>
+                                        <div className="grid grid-cols-2 items-center justify-item-center w-full gap-3">
+                                            <FormItem>
+                                                <Label>Name</Label>
+                                                <Input
+                                                    placeholder={
+                                                        name ? name : "name..."
+                                                    }
+                                                    onChange={(e) =>
+                                                        setName(e.target.value)
+                                                    }
+                                                />
+                                            </FormItem>
+                                            <FormItem>
+                                                <Label>Phone</Label>
+                                                <Input
+                                                    placeholder={
+                                                        phone
+                                                            ? phone
+                                                            : "phone..."
+                                                    }
+                                                    onChange={(e) =>
+                                                        setPhone(e.target.value)
+                                                    }
+                                                />
+                                            </FormItem>
+                                            <FormItem>
+                                                <Label>Address</Label>
+                                                <Input
+                                                    placeholder={
+                                                        address
+                                                            ? address
+                                                            : "address..."
+                                                    }
+                                                    onChange={(e) =>
+                                                        setAddress(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </FormItem>
+                                            <FormItem>
+                                                <Label>City</Label>
+                                                <Input
+                                                    placeholder={
+                                                        city ? city : "city..."
+                                                    }
+                                                    onChange={(e) =>
+                                                        setCity(e.target.value)
+                                                    }
+                                                />
+                                            </FormItem>
+                                            <FormItem>
+                                                <Label>Post Code</Label>
+                                                <Input
+                                                    placeholder={
+                                                        postCode
+                                                            ? postCode
+                                                            : "post code..."
+                                                    }
+                                                    onChange={(e) =>
+                                                        setPostCode(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </FormItem>
+                                            <FormItem>
+                                                <Label>State</Label>
+                                                <Input
+                                                    placeholder={
+                                                        state
+                                                            ? state
+                                                            : "state..."
+                                                    }
+                                                    onChange={(e) =>
+                                                        setState(e.target.value)
+                                                    }
+                                                />
+                                            </FormItem>
+                                            <FormItem>
+                                                <Label>Country</Label>
+                                                <Input
+                                                    placeholder={
+                                                        country
+                                                            ? country
+                                                            : "country..."
+                                                    }
+                                                    onChange={(e) =>
+                                                        setCountry(
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                />
+                                            </FormItem>
                                         </div>
                                         <DialogFooter>
                                             <DialogClose asChild>

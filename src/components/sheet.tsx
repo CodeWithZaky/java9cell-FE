@@ -1,21 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
     Sheet,
-    SheetClose,
     SheetContent,
-    SheetDescription,
-    SheetFooter,
     SheetHeader,
-    SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { Fragment } from "react";
-import { ModeToggle } from "../shadcn/mode-togle";
-import { AvatarDemo } from "../shadcn/avatar";
+import { ModeToggle } from "./mode-togle";
+import { AvatarDemo } from "./avatar";
 import { CalendarDays } from "lucide-react";
 
 export function SheetDemo() {

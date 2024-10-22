@@ -48,51 +48,95 @@ export default function RegisterForm() {
     async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
         try {
             setLoading(true);
-            const data = {
-                ...values,
+
+            const userData = {
                 name: values.username,
+                email: values.email,
+                password: values.password,
             };
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL}/api/users/signup`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                }
-            );
-            if (response.ok) {
-                console.log(" berhasil dibuat! mendaftar");
-                try {
-                    const res = await signIn("credentials", {
-                        email: values.email,
-                        password: values.password,
-                        redirect: false,
-                        callbackUrl: "/",
-                    });
-                    if (!res?.error) {
-                        router.back();
-                    }
-                } catch (error) {
-                    console.log(error);
-                }
-                setLoading(false);
+
+            const signUpResponse = await signUpUser(userData);
+            if (signUpResponse.success) {
+                await signInUser(values.email, values.password);
+                router.back();
             } else {
                 console.error(
                     "Gagal membuat mendaftar. Status:",
-                    response.status,
-                    response.statusText
+                    signUpResponse.status
                 );
-                const errorData = await response.json();
-                console.error("Informasi tambahan:", errorData);
-                setLoading(false);
+                console.error("Informasi tambahan:", signUpResponse.errorData);
             }
         } catch (error) {
             console.error("Terjadi kesalahan:", error);
+        } finally {
             setLoading(false);
         }
     }
+
+    async function signUpUser(userData: any) {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/users/signup`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userData),
+            }
+        );
+
+        if (response.ok) {
+            console.log("Berhasil dibuat! Mendaftar");
+            return { success: true };
+        } else {
+            const errorData = await response.json();
+            return { success: false, status: response.status, errorData };
+        }
+    }
+
+    async function signInUser(email: string, password: string) {
+        try {
+            const signInResponse = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
+                callbackUrl: "/",
+            });
+
+            if (signInResponse?.error) {
+                console.error("Gagal masuk:", signInResponse.error);
+            }
+        } catch (error) {
+            console.error("Gagal masuk:", error);
+        }
+    }
+
+    const form_fields = [
+        {
+            name: "username",
+            form_label: "Username",
+            placeholder: "name...",
+            type: "text",
+        },
+        {
+            name: "email",
+            form_label: "Email",
+            placeholder: "email...",
+            type: "email",
+        },
+        {
+            name: "password",
+            form_label: "Password",
+            placeholder: "password...",
+            type: "password",
+        },
+        {
+            name: "confirm_password",
+            form_label: "Confirm Password",
+            placeholder: "confirm password...",
+            type: "password",
+        },
+    ];
 
     return (
         <div className="min-h-screen w-[60%] md:w-[40%] lg:w-[30%] mx-auto flex justify-center items-center">
@@ -103,72 +147,30 @@ export default function RegisterForm() {
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="space-y-5 w-full px-1 md:px-4 lg:px-5"
                     >
-                        <FormField
-                            control={form.control}
-                            name="username"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Username</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="name..."
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="email..."
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="password..."
-                                            type="password"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="confirm_password"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Confirm Password</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            placeholder="Confirm Password..."
-                                            type="password"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
+                        {form_fields.map((form_field: any) => (
+                            <FormField
+                                key={form_field.name}
+                                control={form.control}
+                                name={form_field.name}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            {form_field.form_label}
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder={
+                                                    form_field.placeholder
+                                                }
+                                                type={form_field.type}
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        ))}
                         {loading ? (
                             <Button type="submit" className="w-full" disabled>
                                 Register

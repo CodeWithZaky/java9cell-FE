@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
-import { ThemeProvider } from "@/providers/theme-provider";
-import Navbar from "@/components/layouts/navbar";
-import SessionProviderWrap from "@/providers/session-provider-wrap";
+import Navbar from "@/components/navbar";
 import { Toaster } from "@/components/ui/toaster";
+import Providers from "@/providers/index";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,18 +20,11 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <SessionProviderWrap>
-                    <ThemeProvider
-                        attribute="class"
-                        defaultTheme="system"
-                        enableSystem
-                        disableTransitionOnChange
-                    >
-                        <Navbar />
-                        <div className="container mx-auto">{children}</div>
-                        <Toaster />
-                    </ThemeProvider>
-                </SessionProviderWrap>
+                <Providers>
+                    <Navbar />
+                    <div className="container mx-auto">{children}</div>
+                    <Toaster />
+                </Providers>
             </body>
         </html>
     );
